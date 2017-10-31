@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>事件的拖拽</title>
+  <style type="text/css">
+	*{padding:0;margin:0}
+	#box{width:100px;height:100px;background:red;position:absolute;top:0;left:0;}
+	#box.move{cursor:move;}
+  </style>
+ </head>
+ <body>
+  <div id="box">123</div>
+  <script type="text/javascript">
+	  /*
+	   /*
+	   事件的绑定
+	   obj.onclick
+	   obj.addEventListener(eName,eFn,false);
+	   obj.attachEvent(eName,eFn);//针对IE浏览器设置的
+
+
+	  //document.onclick = a1;
+	  //asdas
+	  //document.onclick = a2;
+
+	  //document.addEventListener("click",a1,false);
+	  //document.addEventListener("click",a2,false);
+	  document.attachEvent("onclick",a1);
+	  //document.attachEvent("onclick",a2);
+	  //addEvent(document,"click",a1);
+	  //addEvent(document,"click",a2);
+	  //事件兼容
+	  function addEvent(obj,eName,eFn){
+		  /*
+		   if(obj.addEventListener){
+		   obj.addEventListener(eName,eFn,false);
+		   }else{//ie678
+		   obj.attachEvent("on"+eName,eFn);
+		   }
+		  obj.addEventListener?obj.addEventListener(eName,eFn,false):obj.attachEvent("on"+eName,eFn);
+	  }
+	  function a1(){
+		  alert(1);
+	  }
+	  function a2(){
+		  alert(2);
+	  }
+
+
+	  //事件的解绑
+	  //document.onclick = a1;
+	  //document.onclick = null;//清空
+
+	  //针对ie9+ --->addEventListener绑定的话   removeEventListener解绑
+	  //针对ie8- --->attachEvent绑定的话        detachEvent解绑
+	  //document.removeEventListener("click",a1,false);
+	  //document.detachEvent("onclick",a1);
+
+	  //事件解绑的兼容写法
+	  removeEvent(document,"click",a1);
+	  function removeEvent(obj,eName,eFn){
+		  obj.addEventListener?obj.removeEventListener(eName,eFn,false):obj.detachEvent("on"+eName,eFn);
+	  };
+	  */
+	//拖拽的事件如何实现？ onmousedown  onmousemove  onmouseup
+	var oBox = document.getElementById("box");
+	//鼠标点击
+	oBox.onmousedown = function(e){
+		e = e||event;
+		//获取鼠标点击距离浏览器窗口的距离
+		var downX = e.clientX;
+		var downY = e.clientY;
+		//获取oBox距离浏览器坐标与顶部的距离
+		var startLeft = this.offsetLeft;
+		var startTop = this.offsetTop;
+		this.className = "move";
+		document.onmousemove = function(e){
+			e = e||event;
+			var moveX = e.clientX;
+			var moveY = e.clientY;
+			//需要实现
+			oBox.style.left = startLeft+moveX-downX+"px";
+			oBox.style.top = startTop+moveY-downY+"px";
+		};
+	};
+	//鼠标抬起
+	document.onmouseup = function(){
+		this.onmousemove = null;
+		this.className = "";
+	}
+  </script>
+ </body>
+</html>
